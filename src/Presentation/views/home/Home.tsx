@@ -34,7 +34,6 @@ export const HomeScreen = () => {
           onChangeText={onChange}
           value={email}
         />
-
         <CustomTextInput
           image={require('../../../../assets/password.png')}
           placeholder='Contraseña'
