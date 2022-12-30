@@ -11,7 +11,7 @@ interface UserRegister {
   confirPassword: string;
 }
 export const useRegisterViewModel = () => {
-  const [values, setValues] = useState({
+  const [values, setValues] = useState<UserRegister>({
     name: '',
     lastname: '',
     phone: '',
@@ -26,7 +26,10 @@ export const useRegisterViewModel = () => {
   const register = async () => {
     if (isValidForm()) {
       const response = await RegisterAuthUseCase(values);
-      console.log('viewModel LINE 29 => RESULT', JSON.stringify(response));
+      console.log(
+        'useRegisterViewModel LINE 30 => RESPONSE',
+        JSON.stringify(response)
+      );
     }
   };
   const isValidForm = (): boolean => {

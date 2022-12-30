@@ -1,5 +1,11 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useEffect } from 'react';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ToastAndroid,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../../../App';
@@ -10,7 +16,12 @@ import { HomeStyles as styles } from './styles';
 
 export const HomeScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  const { email, password, onChange } = useHomeViewModel();
+  const { email, password, onChange, login, errorMessage } = useHomeViewModel();
+  useEffect(() => {
+    if (errorMessage !== '') {
+      ToastAndroid.show(errorMessage, ToastAndroid.LONG);
+    }
+  }, [errorMessage]);
   return (
     <View style={styles.container}>
       <Image
@@ -44,12 +55,7 @@ export const HomeScreen = () => {
           secureTextEntry={true}
         />
         <View style={{ marginTop: 30 }}>
-          <RoundedButton
-            text='ENTRAR'
-            onPress={() => {
-              console.log('Home LINE 66 =>', { email, password });
-            }}
-          />
+          <RoundedButton text='LOGIN' onPress={login} />
         </View>
         <View style={styles.formRegister}>
           <Text>No tienes cuenta? </Text>

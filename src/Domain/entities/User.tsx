@@ -6,4 +6,5 @@ export interface User {
   image?: string;
   phone: string;
   password: string;
+  session_token?: string;
 }
