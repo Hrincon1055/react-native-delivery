@@ -21,6 +21,11 @@ export const RegisterStyles = StyleSheet.create({
     width: 100,
     height: 100,
   },
+  logoImageLoade: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+  },
   logoText: {
     color: 'white',
     textAlign: 'center',

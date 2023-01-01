@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { RegisterAuthUseCase } from '../../../Domain/useCases/auth/RegisterAuth';
-import { User } from '../../../Domain/entities/User';
+import * as ImagePicker from 'expo-image-picker';
 
 interface UserRegister {
   email: string;
@@ -9,8 +9,10 @@ interface UserRegister {
   lastname: string;
   phone: string;
   confirPassword: string;
+  image?: string;
 }
 export const useRegisterViewModel = () => {
+  // STATE
   const [values, setValues] = useState<UserRegister>({
     name: '',
     lastname: '',
@@ -18,8 +20,22 @@ export const useRegisterViewModel = () => {
     email: '',
     password: '',
     confirPassword: '',
+    image: '',
   });
   const [errorMessage, setErrorMessage] = useState('');
+  const [file, setFile] = useState<ImagePicker.ImagePickerAsset>();
+  // FUNCIONES
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      quality: 1,
+    });
+    if (!result.canceled) {
+      onChange('image', result.assets[0].uri);
+      setFile(result.assets[0]);
+    }
+  };
   const onChange = (property: string, value: any) => {
     setValues({ ...values, [property]: value });
   };
@@ -27,7 +43,7 @@ export const useRegisterViewModel = () => {
     if (isValidForm()) {
       const response = await RegisterAuthUseCase(values);
       console.log(
-        'useRegisterViewModel LINE 30 => RESPONSE',
+        'useRegisterViewModel LINE 46 => RESPONSE',
         JSON.stringify(response)
       );
     }
@@ -63,5 +79,5 @@ export const useRegisterViewModel = () => {
     }
     return true;
   };
-  return { ...values, errorMessage, onChange, register };
+  return { ...values, errorMessage, onChange, register, pickImage };
 };
