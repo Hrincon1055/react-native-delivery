@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -10,9 +10,11 @@ import {
 import { RoundedButton } from '../../components/RoundedButton';
 import { useRegisterViewModel } from './viewModel';
 import { CustomTextInput } from '../../components/CustomTextInput';
+import { ModalPickImage } from '../../components/ModalPickImage';
 import { RegisterStyles as styles } from './styles';
 
 export const RegisterScreen = () => {
+  const [modalVisible, setModalVisible] = useState(false);
   const {
     name,
     lastname,
@@ -25,6 +27,7 @@ export const RegisterScreen = () => {
     onChange,
     register,
     pickImage,
+    takePhote,
   } = useRegisterViewModel();
 
   useEffect(() => {
@@ -40,7 +43,10 @@ export const RegisterScreen = () => {
         style={styles.imageBackground}
       />
       <View style={styles.logoContainer}>
-        <TouchableOpacity onPress={pickImage}>
+        <TouchableOpacity
+          onPress={() => {
+            setModalVisible(true);
+          }}>
           {image === '' ? (
             <Image
               source={require('../../../../assets/user_image.png')}
@@ -108,6 +114,12 @@ export const RegisterScreen = () => {
           <RoundedButton text='CONFIRMAR' onPress={() => register()} />
         </View>
       </ScrollView>
+      <ModalPickImage
+        openGallery={pickImage}
+        openCamera={takePhote}
+        modalUseState={modalVisible}
+        setModalUseState={setModalVisible}
+      />
     </View>
   );
 };
