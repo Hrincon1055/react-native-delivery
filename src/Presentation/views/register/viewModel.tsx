@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { RegisterAuthUseCase } from '../../../Domain/useCases/auth/RegisterAuth';
 import * as ImagePicker from 'expo-image-picker';
+import { RegisterWithImageAuthUseCase } from '../../../Domain/useCases/auth/RegisterWithImageAuth';
 
 interface UserRegister {
   email: string;
@@ -22,6 +23,7 @@ export const useRegisterViewModel = () => {
     confirPassword: '',
     image: '',
   });
+
   const [errorMessage, setErrorMessage] = useState('');
   const [file, setFile] = useState<ImagePicker.ImagePickerAsset>();
   // FUNCIONES
@@ -52,9 +54,13 @@ export const useRegisterViewModel = () => {
   };
   const register = async () => {
     if (isValidForm()) {
-      const response = await RegisterAuthUseCase(values);
+      // const response = await RegisterAuthUseCase(values);
+      const response = await RegisterWithImageAuthUseCase(
+        values as any,
+        file!
+      );
       console.log(
-        'useRegisterViewModel LINE 46 => RESPONSE',
+        'useRegisterViewModel LINE 63 => RESPONSE',
         JSON.stringify(response)
       );
     }
@@ -86,6 +92,10 @@ export const useRegisterViewModel = () => {
     }
     if (values.password !== values.confirPassword) {
       setErrorMessage('Las contraseñas no son iguales.');
+      return false;
+    }
+    if (values?.image === '') {
+      setErrorMessage('Seleccione una imagen.');
       return false;
     }
     return true;
