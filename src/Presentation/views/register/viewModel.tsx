@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { RegisterAuthUseCase } from '../../../Domain/useCases/auth/RegisterAuth';
+
 import * as ImagePicker from 'expo-image-picker';
 import { RegisterWithImageAuthUseCase } from '../../../Domain/useCases/auth/RegisterWithImageAuth';
+import { SaveUserLocalUseCase } from '../../../Domain/useCases/userLocal/SaveUserLocal';
+import { useUserLocal } from '../../hooks/useUserLocal';
 
 interface UserRegister {
   email: string;
@@ -13,6 +15,8 @@ interface UserRegister {
   image?: string;
 }
 export const useRegisterViewModel = () => {
+  // HOOKS
+  const { user, getUserSession } = useUserLocal();
   // STATE
   const [values, setValues] = useState<UserRegister>({
     name: '',
@@ -23,6 +27,7 @@ export const useRegisterViewModel = () => {
     confirPassword: '',
     image: '',
   });
+  const [loading, setloading] = useState<boolean>(false);
 
   const [errorMessage, setErrorMessage] = useState('');
   const [file, setFile] = useState<ImagePicker.ImagePickerAsset>();
@@ -54,15 +59,23 @@ export const useRegisterViewModel = () => {
   };
   const register = async () => {
     if (isValidForm()) {
+      setloading(true);
       // const response = await RegisterAuthUseCase(values);
       const response = await RegisterWithImageAuthUseCase(
         values as any,
         file!
       );
+      setloading(false);
       console.log(
-        'useRegisterViewModel LINE 63 => RESPONSE',
+        'useRegisterViewModel LINE 70 => RESPONSE',
         JSON.stringify(response)
       );
+      if (response.success) {
+        await SaveUserLocalUseCase(response.data);
+        getUserSession();
+      } else {
+        setErrorMessage(response.message);
+      }
     }
   };
   const isValidForm = (): boolean => {
@@ -102,6 +115,8 @@ export const useRegisterViewModel = () => {
   };
   return {
     ...values,
+    user,
+    loading,
     errorMessage,
     onChange,
     register,

@@ -27,7 +27,10 @@ export const useHomeViewModel = () => {
         values.email,
         values.password
       );
-      console.log('useHomeViewModel LINE 28 =>', JSON.stringify(response));
+      console.log(
+        'useHomeViewModel LINE 31 RESPONSE=>',
+        JSON.stringify(response)
+      );
       if (!response.success) {
         setErrorMessage(response.message);
       } else {
