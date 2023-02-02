@@ -25,7 +25,11 @@ export const HomeScreen: FC<Props> = ({ navigation, route }) => {
   }, [errorMessage]);
   useEffect(() => {
     if (user?.id !== null && user?.id !== undefined) {
-      navigation.replace('ProfileInfoScreen');
+      if (user?.roles?.length! > 1) {
+        navigation.replace('RolesScreens');
+      } else {
+        navigation.replace('ClentTabsNavigator');
+      }
     }
   }, [user]);
 

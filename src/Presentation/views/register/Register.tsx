@@ -46,7 +46,7 @@ export const RegisterScreen: FC<Props> = ({ navigation, route }) => {
   }, [errorMessage]);
   useEffect(() => {
     if (user?.id !== null && user?.id !== undefined) {
-      navigation.replace('ProfileInfoScreen');
+      navigation.replace('ClentTabsNavigator');
     }
   }, [user]);
   // RETURN

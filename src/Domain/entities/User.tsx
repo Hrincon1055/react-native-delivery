@@ -1,3 +1,4 @@
+import { Rol } from './Rol';
 export interface User {
   id?: string;
   email: string;
@@ -7,4 +8,5 @@ export interface User {
   phone: string;
   password: string;
   session_token?: string;
+  roles?: Rol[];
 }
