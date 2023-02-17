@@ -8,5 +8,5 @@ export interface User {
   phone: string;
   password: string;
   session_token?: string;
-  roles?: Rol[];
+  roles?: Rol[] | null;
 }

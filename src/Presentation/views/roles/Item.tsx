@@ -32,9 +32,9 @@ export const RolesItem: FC<Props> = ({
   return (
     <TouchableOpacity
       onPress={() => {
-        if (rol.name === 'ADMIN') {
+        if (rol?.name === 'ADMIN') {
           navigation.replace('AdminTabsNavigator');
-        } else if (rol.name === 'CLIENTE') {
+        } else if (rol?.name === 'CLIENTE') {
           navigation.replace('ClentTabsNavigator');
         }
       }}

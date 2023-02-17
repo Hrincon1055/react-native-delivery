@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useLayoutEffect } from 'react';
 import {
   View,
   Text,
@@ -23,8 +23,8 @@ export const HomeScreen: FC<Props> = ({ navigation, route }) => {
       ToastAndroid.show(errorMessage, ToastAndroid.LONG);
     }
   }, [errorMessage]);
-  useEffect(() => {
-    if (user?.id !== null && user?.id !== undefined) {
+  useLayoutEffect(() => {
+    if (user?.id !== null && user?.id !== undefined && user?.id !== '') {
       if (user?.roles?.length! > 1) {
         navigation.replace('RolesScreens');
       } else {

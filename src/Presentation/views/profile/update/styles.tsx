@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export const ProfileInfoStyles = StyleSheet.create({
+export const ProfileUpdateStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'black',
@@ -8,30 +8,22 @@ export const ProfileInfoStyles = StyleSheet.create({
   imageBackground: {
     width: '100%',
     height: '100%',
-    opacity: 0.7,
+    opacity: 0.6,
     bottom: '30%',
   },
   logoContainer: {
     position: 'absolute',
     alignSelf: 'center',
-    top: '11%',
+    top: '15%',
+    alignItems: 'center',
   },
   logoImage: {
-    width: 180,
-    height: 180,
-  },
-  logout: {
-    position: 'absolute',
-    top: 5,
-    right: 15,
-  },
-  logoutImage: {
-    width: 40,
-    height: 40,
+    width: 100,
+    height: 100,
   },
   logoImageLoade: {
-    width: 180,
-    height: 180,
+    width: 100,
+    height: 100,
     borderRadius: 100,
     borderWidth: 2,
     borderColor: 'white',
@@ -45,7 +37,7 @@ export const ProfileInfoStyles = StyleSheet.create({
   },
   form: {
     width: '100%',
-    height: '45%',
+    height: '50%',
     backgroundColor: 'white',
     position: 'absolute',
     bottom: 0,
@@ -53,23 +45,15 @@ export const ProfileInfoStyles = StyleSheet.create({
     borderTopRightRadius: 40,
     padding: 20,
   },
-  formInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  formContent: {
-    marginLeft: 15,
-  },
-  formTextDescription: {
-    fontSize: 12,
-    color: 'grey',
-  },
-  formImage: {
-    width: 30,
-    height: 30,
-  },
   formText: {
     fontWeight: 'bold',
     fontSize: 16,
+  },
+  loading: {
+    position: 'absolute',
+    bottom: 0,
+    top: 0,
+    left: 0,
+    right: 0,
   },
 });

@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { LoginAuthUseCase } from '../../../Domain/useCases/auth/LoginAuth';
-import { useUserLocal } from '../../hooks/useUserLocal';
-import { SaveUserLocalUseCase } from '../../../Domain/useCases/userLocal/SaveUserLocal';
+import { UserContext } from '../../context/UserContext';
 
 interface UserLogin {
   email: string;
@@ -9,7 +8,7 @@ interface UserLogin {
 }
 
 export const useHomeViewModel = () => {
-  const { user, getUserSession } = useUserLocal();
+  const { user, saveUserSession } = useContext(UserContext);
   const [errorMessage, setErrorMessage] = useState('');
   const [values, setValues] = useState<UserLogin>({
     email: '',
@@ -28,14 +27,13 @@ export const useHomeViewModel = () => {
         values.password
       );
       console.log(
-        'useHomeViewModel LINE 31 RESPONSE=>',
+        'useHomeViewModel LINE 30 RESPONSE=>',
         JSON.stringify(response)
       );
       if (!response.success) {
         setErrorMessage(response.message);
       } else {
-        await SaveUserLocalUseCase(response.data);
-        getUserSession();
+        await saveUserSession(response.data);
       }
     }
   };

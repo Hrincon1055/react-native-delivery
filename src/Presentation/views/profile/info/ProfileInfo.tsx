@@ -1,39 +1,34 @@
-import React, { FC } from 'react';
-import { View, Text, Button, Image, TouchableOpacity } from 'react-native';
-import {
-  StackScreenProps,
-  StackNavigationProp,
-} from '@react-navigation/stack';
+import React, { FC, useEffect } from 'react';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { useProfleInfoViewModel } from './viewModel';
 import { RootStackParamList } from '../../../../../App';
-import { useNavigation } from '@react-navigation/native';
-import { ProfileInfoStyles as styles } from './styles';
 import { RoundedButton } from '../../../components/RoundedButton';
+import { ProfileInfoStyles as styles } from './styles';
 
 interface Props {}
 // INICIO
 export const ProfileInfoScreen: FC<Props> = () => {
   const navigation =
     useNavigation<StackNavigationProp<RootStackParamList>>();
-  const { user, removeSession } = useProfleInfoViewModel();
+  const { user, removeUserSession } = useProfleInfoViewModel();
+  useEffect(() => {
+    if (user.id === '') {
+      navigation.replace('HomeScreen');
+    }
+  }, [user]);
+
   return (
     <View style={styles.container}>
-      {/* <Button
-        title='Cerrar session'
-        onPress={() => {
-          removeSession();
-          navigation.navigate('HomeScreen');
-        }}
-      /> */}
       <Image
-        source={require('../../../../../assets/chef.jpg')}
+        source={require('../../../../../assets/city.jpg')}
         style={styles.imageBackground}
       />
       <TouchableOpacity
         style={styles.logout}
         onPress={() => {
-          removeSession();
-          navigation.navigate('HomeScreen');
+          removeUserSession();
         }}>
         <Image
           source={require('../../../../../assets/cerrar-sesion.png')}
@@ -41,10 +36,12 @@ export const ProfileInfoScreen: FC<Props> = () => {
         />
       </TouchableOpacity>
       <View style={styles.logoContainer}>
-        <Image
-          source={{ uri: user?.image }}
-          style={styles.logoImageLoade}
-        />
+        {user?.image !== '' && (
+          <Image
+            source={{ uri: user?.image }}
+            style={styles.logoImageLoade}
+          />
+        )}
       </View>
       <View style={styles.form}>
         <View style={styles.formInfo}>
@@ -52,7 +49,6 @@ export const ProfileInfoScreen: FC<Props> = () => {
             source={require('../../../../../assets/user.png')}
             style={styles.formImage}
           />
-
           <View style={styles.formContent}>
             <Text>
               {user?.name} {user?.lastname}
@@ -86,7 +82,9 @@ export const ProfileInfoScreen: FC<Props> = () => {
           </View>
         </View>
         <RoundedButton
-          onPress={() => console.log('Hola')}
+          onPress={() =>
+            navigation.navigate('ProfileUpdateScreen', { user: user! })
+          }
           text='actualizar informacion'
         />
       </View>
